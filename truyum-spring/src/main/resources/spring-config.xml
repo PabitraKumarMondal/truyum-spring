@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<bean id="dateFormat" class="java.text.SimpleDateFormat">
+		<constructor-arg value="dd/MM/yyyy" />
+	</bean>
+	
+	<!-- Bean for Sandwich (1, "Sandwich", 99f, true, DateUtil.convertToDate("15/03/2017"),"Main Course", true)-->
+	<bean class="com.cognizant.truyum.model.MenuItem" id="sandwich">
+		<property name="id" value="1"/>
+		<property name="name" value="Sandwich"/>
+		<property name="price" value="99.0"/>
+		<property name="active" value="true"/>
+		<property name="dateOfLaunch">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="15/03/2017" />
+			</bean>
+		</property>
+		<property name="category" value="Main Course"/>
+		<property name="freeDelivery" value="true"/>
+	</bean>
+	
+	<!-- Bean for Burger (2, "Burger", 129f, true, DateUtil.convertToDate("23/12/2017"),"Main Course", false)-->
+	<bean class="com.cognizant.truyum.model.MenuItem" id="burger">
+		<property name="id" value="2"/>
+		<property name="name" value="Burger"/>
+		<property name="price" value="129.0"/>
+		<property name="active" value="true"/>
+		<property name="dateOfLaunch">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="23/12/2017" />
+			</bean>
+		</property>
+		<property name="category" value="Main Course"/>
+		<property name="freeDelivery" value="false"/>
+	</bean>
+
+	<!-- Bean for Pizza (3, "Pizza", 149f, true, DateUtil.convertToDate("21/08/2018"),"Main Course", false)-->
+	<bean class="com.cognizant.truyum.model.MenuItem" id="pizza">
+		<property name="id" value="3"/>
+		<property name="name" value="Pizza"/>
+		<property name="price" value="149.0"/>
+		<property name="active" value="true"/>
+		<property name="dateOfLaunch">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="21/08/2018" />
+			</bean>
+		</property>
+		<property name="category" value="Main Course"/>
+		<property name="freeDelivery" value="false"/>
+	</bean>
+	
+	<!-- Bean for French Fries (4, "French Fries", 57f, false, DateUtil.convertToDate("02/07/2017"), "Starters", true)-->
+	<bean class="com.cognizant.truyum.model.MenuItem" id="fries">
+		<property name="id" value="4"/>
+		<property name="name" value="French Fries"/>
+		<property name="price" value="57.0"/>
+		<property name="active" value="false"/>
+		<property name="dateOfLaunch">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="02/07/2017" />
+			</bean>
+		</property>
+		<property name="category" value="Starters"/>
+		<property name="freeDelivery" value="true"/>
+	</bean>
+
+	<!-- Bean for Chocolate Brownie (5, "Chocolate Brownie", 32f, true, DateUtil.convertToDate("02/11/2022"), "Dessert", true)-->
+	<bean class="com.cognizant.truyum.model.MenuItem" id="brownie">
+		<property name="id" value="5"/>
+		<property name="name" value="Chocolate Brownie"/>
+		<property name="price" value="32.0"/>
+		<property name="active" value="true"/>
+		<property name="dateOfLaunch">
+			<bean factory-bean="dateFormat" factory-method="parse">
+				<constructor-arg value="02/11/2022" />
+			</bean>
+		</property>
+		<property name="category" value="Dessert"/>
+		<property name="freeDelivery" value="true"/>
+	</bean>
+	
+	<!-- Bean for menuItemList -->
+	<bean class="java.util.ArrayList" id="menuItems">
+		<constructor-arg>
+			<list>
+				<ref bean="sandwich"/>
+				<ref bean="burger"/>
+				<ref bean="pizza"/>
+				<ref bean="fries"/>
+				<ref bean="brownie"/>
+			</list>
+		</constructor-arg>
+	</bean>
+	<bean class="com.cognizant.truyum.dao.MenuItemDaoCollectionImpl" id="menuItemDaoCollectionImpl">
+		<property name="menuItemList" ref="menuItems"/>
+	</bean>
+	<bean class="co.cognizant.truyum.service.MenuItemService" id="menuItemService">
+		<property name="menuItemDao" ref="menuItemDaoCollectionImpl"/>
+	</bean>
+</beans>
